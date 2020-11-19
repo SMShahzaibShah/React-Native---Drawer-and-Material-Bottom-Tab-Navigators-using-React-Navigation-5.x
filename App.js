@@ -1,21 +1,61 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
+import React  from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import  HomeScreen  from "./screens/HomeScreen";
+import  StartScreen  from "./screens/StartScreen";
+import  LastScreen  from "./screens/LastScreen";
 
-export default function App() {
+const Drawer = createDrawerNavigator();
+
+function MyDrawer() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Drawer.Navigator>
+      <Drawer.Screen name="Feed" component={Feed} />
+      <Drawer.Screen name="Article" component={Article} />
+    </Drawer.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+const Stack = createStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={"Home"}
+      screenOptions={
+        {
+          headerTitleAlign: "center",
+          headerTintColor: 'black', // change header color
+          headerStyle:{
+          backgroundColor: 'lightblue',
+          },
+          headerRight: () => <Button title="Edit"></Button>
+        }
+      }
+      >
+        <Stack.Screen
+        name="Start"
+        component={StartScreen}
+        />
+        <Stack.Screen name="Home" component={HomeScreen} 
+        options={{
+          title: 'Welcome',
+          //headerShown: false,
+          // headerTitleAlign: "center",
+          // headerTintColor: 'black', // change header color
+          // headerStyle:{
+          //   backgroundColor: 'lightblue',
+          // }
+          headerRight: () => {}
+        }}/>
+        <Stack.Screen name="Dashboard" component={StartScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
